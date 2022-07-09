@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <title>game</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="/ai/NeuralNetwork.js"></script>
+    <script src="test.js"></script>
+    <script src="/geometry/Locatable.js"></script>
+    <script src="/player/Player.js"></script>
+    <script src="/player/HumanPlayer.js"></script>
+    <script src="/player/RobotPlayer.js"></script>
+    <script src="/obstacle/Obstacle.js"></script>
+    <script src="/pressureplate/PressurePlate.js"></script>
+    <script src="Renderer.js"></script>
+    <script src="Game.js"></script>
+    <script>
+        var game;
+
+        window.onload = async () =>
+        {
+            console.log("loaded");
+            tf.setBackend('cpu');
+
+            var humanPlayer = new HumanPlayer();
+
+            var robotPlayers = [];
+            for (var i = 0 ; i < 200 ; i++)
+                robotPlayers.push(new RobotPlayer());
+
+            jumpForPlayer = async (e) =>
+            {
+                var code = e.keyCode;
+                console.log(e.keyCode);
+                if (code === 87 || code === 32 || code === 38) //w, space, up arrow
+                    humanPlayer.jump();
+                else if (code === 83) //s
+                    game.debug();
+                else if (code === 82) //r
+                    game.restart();
+                else if (code === 84) //t
+                    console.log(tf.memory());
+                else if (code === 68) //d
+                {
+                    var bestRobot = game.getCurrentBestRobotModel();
+                    if (!bestRobot)
+                        return;
+                    var model = bestRobot.getBrain().getModel();
+                    console.log("best bot", bestRobot);
+                    await model.save('downloads://robotJumpingGame');
+                }
+                    
+            }
+            window.addEventListener('keydown', jumpForPlayer, false);
+
+            game = new Game('gamecanvas', 600, 480);
+            game.addPlayer(humanPlayer);
+            game.addPlayers(robotPlayers);
+
+            console.log(document.getElementById("hzRate").value);
+
+            document.getElementById("hzRate").onchange = (e) => {
+                var num = parseInt(e.target.value);
+                console.log("this changed", num);
+                game.setHz(num);
+            };
+
+            document.getElementById("drawGame").onchange = (e) => {
+                var draw = e.target.checked;
+                console.log("this changed", draw);
+                game.setDrawGame(draw);
+            };
+
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <h4>header</h4>
+    </header>
+
+    <div>
+        <p>body</p>
+        <img hidden id="personimg" src="/images/person.png"></img>
+        <img hidden id="personjumpimg" src="/images/person_jump.png"></img>
+        <canvas id="gamecanvas" width="600" height="480" style="border: black solid 1px;"></canvas>
+        <br/>
+        <label for="hzRate">Hz Rate Override</label>
+        <input type="number" id="hzRate" value="100"/>
+        <label>draw game</label>
+        <input type="checkbox" id="drawGame" checked/>
+    </div>
+
+    <footer>
+        <p>footer</p>
+    </footer>
+</body>
+
+</html>
