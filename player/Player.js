@@ -10,7 +10,6 @@ class Player extends Locatable {
         this.yVelocity = 0;
         this.dead = false;
         this.score = 0;
-        console.log("player initialized");
     }
 
     serializedAi()

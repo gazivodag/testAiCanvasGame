@@ -9,7 +9,6 @@ class Locatable {
         this.y = y;
         this.width = width;
         this.height = height;
-        // console.log("locatable initialized");
     }
 
     serializedAi()

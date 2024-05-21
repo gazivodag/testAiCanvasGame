@@ -45,8 +45,6 @@ class RobotPlayer extends Player
 
     think(gameData)
     {
-        // console.log("im about to think with input", gameData);
-
         var prediction = this.brain.predict(gameData);
 
         if (prediction[0] > prediction[1])

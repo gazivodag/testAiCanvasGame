@@ -37,7 +37,6 @@ class Game extends Renderer
         this.players = this.players ? this.players : [];
         this.obstacles = [];
         this.obstaclesCrossed = 0;
-        console.log("game initialized");
         this.createPressurePlate();
         this.createObstacles();
         this.startGameClock(this.hz);
@@ -184,7 +183,6 @@ class Game extends Renderer
 
             var lastRobotAlive = this.died[this.died.length - 1];
 
-            console.log("analyze all the ais in here");
             var bestrobots = robots.map((p, i) => ({ "index": i, "name": p.getName(), "score": p.getScore() }));
             console.log(bestrobots);
 

@@ -77,15 +77,11 @@ class NeuralNetwork
                 for (var j = 0; j < values.length; j++)
                 {
                     var rand = this.random(1,10); // 1 out of 10 chance of a mutation of a weight
-                    // console.log("random", rand);
                     if (rand === 5)
                     {
                         var w = values[j];
-                        // console.log("current weight", w);
-                        var mod = (this.random(10) / 10) * (this.random(1,2) == 2 ? -1 : 1); //TODO: may not work, github said randomGaussian(); which is a method i dont know
-                        // console.log("setting current weight", w, "to", mod);
+                        var mod = (this.random(10) / 10) * (this.random(1,2) == 2 ? -1 : 1);
                         values[j] = mod;
-                        // console.log("modified weight", values[j]);
                     }
                 }
                 var newTensor = tf.tensor(values, shape);
@@ -108,7 +104,6 @@ class NeuralNetwork
 
             const ys = this.model.predict(xs);
             const outputs = ys.dataSync();
-            // console.log(outputs);
             return outputs;
         });
     }

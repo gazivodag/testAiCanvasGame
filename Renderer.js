@@ -16,7 +16,6 @@ class Renderer {
         this.cHeight = cHeight;
         this.cElement = document.getElementById(canvasId);
         this.cContext = this.cElement.getContext("2d");
-        console.log("renderer initialized");
     }
 
 
